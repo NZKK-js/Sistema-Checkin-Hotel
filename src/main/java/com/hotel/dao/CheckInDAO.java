@@ -22,7 +22,7 @@ public class CheckInDAO extends MysqlDAO<CheckIn> {
     protected Supplier<CheckIn> novaInstancia() {
         return CheckIn::new;
     }
-
+        // Salva um novo check-in no banco
     public void salvar(CheckIn checkIn) throws SQLException {
         String sql = "INSERT INTO checkins (reserva_id, data_checkin, status, observacoes) VALUES (?, NOW(), ?, ?)";
         executarUpdate(sql,
