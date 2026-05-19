@@ -6,8 +6,7 @@ import java.sql.SQLException;
 
 public class ConnectionFactory {
 
-    private static final String URL =
-            "jdbc:mysql://localhost:3306/hotel_checkin?useSSL=false&serverTimezone=America/Sao_Paulo&characterEncoding=UTF-8";
+    private static final String URL = "jdbc:mysql://localhost:3306/hotel_checkin?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=America/Sao_Paulo&characterEncoding=UTF-8";
     private static final String USER = "root";
     private static final String PASSWORD = "";
 

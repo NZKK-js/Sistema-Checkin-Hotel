@@ -9,7 +9,7 @@
 </head>
 <body>
 <nav class="navbar">
-    <a class="navbar-brand" href="${pageContext.request.contextPath}/"><span>🏨</span> HotelSystem</a>
+    <a class="navbar-brand" href="${pageContext.request.contextPath}/"><img src="${pageContext.request.contextPath}/img/logo-nav.png" alt="HOSPEDAR"><span class="brand-text"><b>HOSPEDAR</b> Quick Check-in</span></a>
     <ul class="navbar-nav">
         <li><a href="${pageContext.request.contextPath}/">Home</a></li>
         <li><a href="${pageContext.request.contextPath}/hospedes">Hóspedes</a></li>
@@ -20,14 +20,14 @@
 </nav>
 
 <div class="container">
-    <c:if test="${param.msg == 'checkin'}"><div class="alert alert-success">✅ Check-in realizado com sucesso!</div></c:if>
+    <c:if test="${param.msg == 'checkin'}"><div class="alert alert-success"><svg class="icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg> Check-in realizado com sucesso!</div></c:if>
     <c:if test="${param.msg == 'checkout'}"><div class="alert alert-success">🚪 Checkout realizado. Quarto liberado!</div></c:if>
     <c:if test="${param.msg == 'cancelado'}"><div class="alert alert-success">Check-in cancelado.</div></c:if>
     <c:if test="${not empty erro}"><div class="alert alert-danger">${erro}</div></c:if>
 
     <div class="card">
         <div class="card-header">
-            <h2>✅ Check-ins</h2>
+            <h2><svg class="icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg> Check-ins</h2>
             <a href="${pageContext.request.contextPath}/checkins/novo" class="btn btn-warning">+ Novo Check-in</a>
         </div>
         <div class="card-body">

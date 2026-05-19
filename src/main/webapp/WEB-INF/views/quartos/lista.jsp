@@ -9,7 +9,7 @@
 </head>
 <body>
 <nav class="navbar">
-    <a class="navbar-brand" href="${pageContext.request.contextPath}/"><span>🏨</span> HotelSystem</a>
+    <a class="navbar-brand" href="${pageContext.request.contextPath}/"><img src="${pageContext.request.contextPath}/img/logo-nav.png" alt="HOSPEDAR"><span class="brand-text"><b>HOSPEDAR</b> Quick Check-in</span></a>
     <ul class="navbar-nav">
         <li><a href="${pageContext.request.contextPath}/">Home</a></li>
         <li><a href="${pageContext.request.contextPath}/hospedes">Hóspedes</a></li>
@@ -27,7 +27,7 @@
 
     <div class="card">
         <div class="card-header">
-            <h2>🛏️ Quartos</h2>
+            <h2><svg class="icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11h18"/><path d="M5 11V7a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v4"/><path d="M3 11v8M21 11v8M3 17h18"/></svg> Quartos</h2>
             <a href="${pageContext.request.contextPath}/quartos/novo" class="btn btn-warning">+ Novo Quarto</a>
         </div>
         <div class="card-body">
