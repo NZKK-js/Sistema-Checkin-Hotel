@@ -10,13 +10,15 @@ public class HospedeService {
 
     private final HospedeDAO hospedeDAO = new HospedeDAO();
 
-    public void cadastrar(Hospede hospede) throws Exception {
+    public int cadastrar(Hospede hospede) throws Exception {
         validar(hospede);
-        hospedeDAO.salvar(hospede);
+        normalizar(hospede);
+        return hospedeDAO.salvar(hospede);
     }
 
     public void atualizar(Hospede hospede) throws Exception {
         validar(hospede);
+        normalizar(hospede);
         hospedeDAO.atualizar(hospede);
     }
 
@@ -52,6 +54,15 @@ public class HospedeService {
 
         if (!cpfValido(hospede.getCpf())) {
             throw new Exception("O CPF informado é inválido. Verifique os números digitados.");
+        }
+    }
+
+    private void normalizar(Hospede hospede) {
+        hospede.setNome(hospede.getNome().trim());
+        hospede.setCpf(hospede.getCpf().trim());
+        hospede.setEmail(hospede.getEmail().trim().toLowerCase());
+        if (hospede.getTelefone() != null) {
+            hospede.setTelefone(hospede.getTelefone().trim());
         }
     }
 

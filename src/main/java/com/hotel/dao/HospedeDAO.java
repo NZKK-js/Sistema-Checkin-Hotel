@@ -14,9 +14,9 @@ public class HospedeDAO extends MysqlDAO<Hospede> {
         return Hospede::new;
     }
 
-    public void salvar(Hospede hospede) throws SQLException {
+    public int salvar(Hospede hospede) throws SQLException {
         String sql = "INSERT INTO hospedes (nome, cpf, email, telefone, data_nascimento) VALUES (?, ?, ?, ?, ?)";
-        executarUpdate(sql,
+        return executarInsert(sql,
                 hospede.getNome(),
                 hospede.getCpf(),
                 hospede.getEmail(),
