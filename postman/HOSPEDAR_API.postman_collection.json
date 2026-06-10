@@ -1,0 +1,103 @@
+{
+  "info": {
+    "_postman_id": "b6f50227-4a5d-480c-b2ad-6d85bcebe100",
+    "name": "HOSPEDAR - API RESTful com JWT",
+    "description": "Coleção para testar o CRUD RESTful de hóspedes do sistema HOSPEDAR.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8080/hotel-checkin" },
+    { "key": "token", "value": "COLE_SEU_TOKEN_AQUI" },
+    { "key": "hospedeId", "value": "3" }
+  ],
+  "item": [
+    {
+      "name": "Autenticação",
+      "item": [
+        {
+          "name": "Login - gerar token JWT",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@hotel.com\",\n  \"senha\": \"admin123\"\n}"
+            },
+            "url": "{{baseUrl}}/api/auth/login"
+          }
+        },
+        {
+          "name": "Registrar novo usuário",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Usuário de Teste\",\n  \"email\": \"teste@hotel.com\",\n  \"senha\": \"123456\"\n}"
+            },
+            "url": "{{baseUrl}}/api/auth/registrar"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Hóspedes - CRUD RESTful",
+      "item": [
+        {
+          "name": "Listar hóspedes",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/api/hospedes"
+          }
+        },
+        {
+          "name": "Buscar hóspede por ID",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/api/hospedes/{{hospedeId}}"
+          }
+        },
+        {
+          "name": "Cadastrar hóspede",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Carlos Oliveira\",\n  \"cpf\": \"111.444.777-35\",\n  \"email\": \"carlos@email.com\",\n  \"telefone\": \"(34) 99999-3333\",\n  \"dataNascimento\": \"1998-10-20\"\n}"
+            },
+            "url": "{{baseUrl}}/api/hospedes"
+          }
+        },
+        {
+          "name": "Atualizar hóspede",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Carlos Oliveira Santos\",\n  \"cpf\": \"111.444.777-35\",\n  \"email\": \"carlos.santos@email.com\",\n  \"telefone\": \"(34) 98888-3333\",\n  \"dataNascimento\": \"1998-10-20\"\n}"
+            },
+            "url": "{{baseUrl}}/api/hospedes/{{hospedeId}}"
+          }
+        },
+        {
+          "name": "Excluir hóspede",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/api/hospedes/{{hospedeId}}"
+          }
+        }
+      ]
+    }
+  ]
+}
