@@ -1,5 +1,6 @@
 package com.hotel.controller;
 
+import com.hotel.service.CheckInService;
 import com.hotel.service.HospedeService;
 import com.hotel.service.QuartoService;
 import com.hotel.service.ReservaService;
@@ -18,18 +19,21 @@ public class HomeController extends HttpServlet {
     private final HospedeService hospedeService = new HospedeService();
     private final QuartoService quartoService = new QuartoService();
     private final ReservaService reservaService = new ReservaService();
+    private final CheckInService checkInService = new CheckInService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         try {
             req.setAttribute("totalHospedes", hospedeService.listarTodos().size());
-            req.setAttribute("totalQuartos", quartoService.listarTodos().size());
+            req.setAttribute("totalQuartos", quartoService.listarDisponiveis().size());
             req.setAttribute("totalReservas", reservaService.listarTodas().size());
+            req.setAttribute("totalCheckins", checkInService.listarAtivos().size());
         } catch (Exception e) {
             req.setAttribute("totalHospedes", 0);
             req.setAttribute("totalQuartos", 0);
             req.setAttribute("totalReservas", 0);
+            req.setAttribute("totalCheckins", 0);
         }
         req.getRequestDispatcher("/WEB-INF/views/index.jsp").forward(req, resp);
     }

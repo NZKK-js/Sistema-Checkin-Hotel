@@ -31,14 +31,17 @@ public class ReservaDAO extends MysqlDAO<Reserva> {
                 reserva.getStatus() != null ? reserva.getStatus() : "PENDENTE");
     }
 
+    /**
+     * Atualiza somente os dados editáveis da reserva.
+     * O status é preservado e deve ser alterado pelos métodos específicos.
+     */
     public void atualizar(Reserva reserva) throws SQLException {
-        String sql = "UPDATE reservas SET hospede_id=?, quarto_id=?, data_entrada=?, data_saida=?, status=? WHERE id=?";
+        String sql = "UPDATE reservas SET hospede_id=?, quarto_id=?, data_entrada=?, data_saida=? WHERE id=?";
         executarUpdate(sql,
                 reserva.getHospedeId(),
                 reserva.getQuartoId(),
                 Date.valueOf(reserva.getDataEntrada()),
                 Date.valueOf(reserva.getDataSaida()),
-                reserva.getStatus(),
                 reserva.getId());
     }
 
@@ -60,6 +63,20 @@ public class ReservaDAO extends MysqlDAO<Reserva> {
 
     public List<Reserva> listar() throws SQLException {
         return listarTodas();
+    }
+
+    /** Verifica conflito de período para o mesmo quarto. */
+    public boolean existeConflito(int quartoId, Date dataEntrada, Date dataSaida, Integer reservaIgnoradaId)
+            throws SQLException {
+        String sql = "SELECT COUNT(*) AS total FROM reservas "
+                + "WHERE quarto_id=? AND status IN ('PENDENTE', 'CONFIRMADA') "
+                + "AND data_entrada < ? AND data_saida > ?";
+
+        if (reservaIgnoradaId != null) {
+            sql += " AND id <> ?";
+            return contar(sql, quartoId, dataSaida, dataEntrada, reservaIgnoradaId) > 0;
+        }
+        return contar(sql, quartoId, dataSaida, dataEntrada) > 0;
     }
 
     public List<Reserva> listarConfirmadas() throws SQLException {

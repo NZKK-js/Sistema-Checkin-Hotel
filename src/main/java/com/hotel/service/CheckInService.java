@@ -23,6 +23,9 @@ public class CheckInService {
         if (!"CONFIRMADA".equals(reserva.getStatus())) {
             throw new Exception("Somente reservas confirmadas podem realizar check-in.");
         }
+        if (checkInDAO.existeCheckInAtivoPorReserva(reservaId)) {
+            throw new Exception("Esta reserva já possui um check-in ativo.");
+        }
 
         CheckIn checkIn = new CheckIn();
         checkIn.setReservaId(reservaId);
@@ -42,14 +45,24 @@ public class CheckInService {
         }
 
         checkInDAO.realizarCheckout(checkInId);
-
         int quartoId = checkIn.getReserva().getQuarto().getId();
         quartoDAO.atualizarDisponibilidade(quartoId, true);
         reservaDAO.atualizarStatus(checkIn.getReservaId(), "FINALIZADA");
     }
 
     public void cancelar(int id) throws Exception {
+        CheckIn checkIn = checkInDAO.buscarPorId(id);
+        if (checkIn == null) {
+            throw new Exception("Check-in não encontrado.");
+        }
+        if (!"ATIVO".equals(checkIn.getStatus())) {
+            throw new Exception("Somente check-ins ativos podem ser cancelados.");
+        }
+
         checkInDAO.deletar(id);
+        int quartoId = checkIn.getReserva().getQuarto().getId();
+        quartoDAO.atualizarDisponibilidade(quartoId, true);
+        reservaDAO.atualizarStatus(checkIn.getReservaId(), "CONFIRMADA");
     }
 
     public CheckIn buscarPorId(int id) throws SQLException {

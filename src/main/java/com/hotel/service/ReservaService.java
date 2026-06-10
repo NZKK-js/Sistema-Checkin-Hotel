@@ -4,6 +4,7 @@ import com.hotel.dao.QuartoDAO;
 import com.hotel.dao.ReservaDAO;
 import com.hotel.model.Reserva;
 
+import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
@@ -15,6 +16,7 @@ public class ReservaService {
 
     public void criar(Reserva reserva) throws Exception {
         validar(reserva);
+        validarConflito(reserva, null);
         reserva.setStatus("PENDENTE");
         reservaDAO.salvar(reserva);
     }
@@ -27,6 +29,7 @@ public class ReservaService {
         if (!"PENDENTE".equals(reserva.getStatus())) {
             throw new Exception("Apenas reservas pendentes podem ser confirmadas.");
         }
+        validarConflito(reserva, reserva.getId());
         reservaDAO.atualizarStatus(id, "CONFIRMADA");
     }
 
@@ -44,10 +47,22 @@ public class ReservaService {
 
     public void atualizar(Reserva reserva) throws Exception {
         validar(reserva);
+        Reserva existente = reservaDAO.buscarPorId(reserva.getId());
+        if (existente == null) {
+            throw new Exception("Reserva não encontrada.");
+        }
+        if ("FINALIZADA".equals(existente.getStatus()) || "CANCELADA".equals(existente.getStatus())) {
+            throw new Exception("Não é possível editar uma reserva finalizada ou cancelada.");
+        }
+        validarConflito(reserva, reserva.getId());
         reservaDAO.atualizar(reserva);
     }
 
     public void excluir(int id) throws Exception {
+        Reserva reserva = reservaDAO.buscarPorId(id);
+        if (reserva == null) {
+            throw new Exception("Reserva não encontrada.");
+        }
         reservaDAO.deletar(id);
     }
 
@@ -73,6 +88,18 @@ public class ReservaService {
         }
         if (reserva.getDataEntrada().isBefore(LocalDate.now())) {
             throw new Exception("A data de entrada não pode ser no passado.");
+        }
+    }
+
+    private void validarConflito(Reserva reserva, Integer reservaIgnoradaId) throws Exception {
+        boolean existeConflito = reservaDAO.existeConflito(
+                reserva.getQuartoId(),
+                Date.valueOf(reserva.getDataEntrada()),
+                Date.valueOf(reserva.getDataSaida()),
+                reservaIgnoradaId
+        );
+        if (existeConflito) {
+            throw new Exception("Este quarto já possui uma reserva no período informado.");
         }
     }
 }

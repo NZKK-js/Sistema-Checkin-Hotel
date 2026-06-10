@@ -47,6 +47,10 @@ public class CheckInDAO extends MysqlDAO<CheckIn> {
         return listar(SELECT_JOIN + "ORDER BY c.data_checkin DESC");
     }
 
+    public boolean existeCheckInAtivoPorReserva(int reservaId) throws SQLException {
+        return contar("SELECT COUNT(*) AS total FROM checkins WHERE reserva_id=? AND status='ATIVO'", reservaId) > 0;
+    }
+
     public List<CheckIn> listarAtivos() throws SQLException {
         return listar(SELECT_JOIN + "WHERE c.status='ATIVO' ORDER BY c.data_checkin DESC");
     }
