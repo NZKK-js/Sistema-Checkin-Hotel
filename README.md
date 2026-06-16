@@ -281,20 +281,6 @@ Após executar a requisição de login, copie o token retornado e salve-o na var
 - Ao cancelar um check-in ativo, o quarto volta a ficar disponível.
 - Ao realizar checkout, o quarto é liberado e a reserva é finalizada.
 
-## Apresentação sugerida
-
-Durante a apresentação, o grupo pode demonstrar:
-
-1. A separação entre Controller, Service e DAO.
-2. O login no Postman e a geração do token JWT.
-3. Uma tentativa de acesso sem token, mostrando o erro `401 Unauthorized`.
-4. O cadastro de um hóspede com `POST`.
-5. A consulta do hóspede com `GET`.
-6. A atualização com `PUT`.
-7. A exclusão com `DELETE`.
-8. A alteração dos dados diretamente no MySQL.
-9. A interface web do sistema funcionando no navegador.
-
 ## Autoria
 
 Projeto desenvolvido para fins acadêmicos na disciplina **Aplicações para Internet**.
